@@ -40,7 +40,17 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "linux": {
+      "deb": {
+        "depends": [],
+        "desktopTemplate": "linux/desktop.template"
+      }
+    },
+    "macos": {
+      "minimumSystemVersion": "10.13",
+      "signingIdentity": null
+    }
   },
   "plugins": {}
 }
