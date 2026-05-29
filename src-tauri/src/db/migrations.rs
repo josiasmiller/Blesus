@@ -128,5 +128,11 @@ pub fn all() -> Vec<Migration> {
             sql: include_str!("../../migrations/21_fix_subject_normalized.sql"),
             kind: MigrationKind::Up,
         },
+        Migration {
+            version: 22,
+            description: "repair drafts.attachments_json (mig 20 used invalid SQLite syntax)",
+            sql: include_str!("../../migrations/22_drafts_attachments_repair.sql"),
+            kind: MigrationKind::Up,
+        },
     ]
 }
