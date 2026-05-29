@@ -96,11 +96,16 @@ jobs:
         # Without an Apple Developer ID the app cannot be notarized, but ad-hoc
         # signing prevents the "app is damaged and can't be opened" Gatekeeper
         # error that shows up when macOS can find no signature at all.
+        # Note: --deep is deprecated by Apple but is the correct approach for
+        # ad-hoc signing where no provisioning profile or timestamp server is used.
         if: matrix.os == 'macos-latest'
         run: |
-          APP_BUNDLE=$(find src-tauri/target -name "Blesus.app" -maxdepth 10 | head -1)
+          APP_BUNDLE=$(find src-tauri/target -name "Blesus.app" -maxdepth 5 | head -1)
           if [ -n "$APP_BUNDLE" ]; then
             codesign --force --deep --sign - "$APP_BUNDLE"
+            echo "Ad-hoc signed: $APP_BUNDLE"
+          else
+            echo "Warning: Blesus.app not found, skipping codesign"
           fi
 
       - name: Upload artifact
