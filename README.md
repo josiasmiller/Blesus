@@ -6,6 +6,7 @@ no cloud, no tracking.**
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-24C8DB.svg)](https://tauri.app)
+![GitHub Downloads (latest release)](https://img.shields.io/github/downloads/JMTDI/eGate-Installer/latest/total)
 
 > **Status:** v0.1 — feature-complete for daily use; pre-release polish in progress.
 
