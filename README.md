@@ -141,6 +141,22 @@ Pre-built binaries will be published on
 [GitHub Releases](https://github.com/JMTDI/blesus/releases)
 once v0.1 ships.
 
+> **macOS note:** Blesus is not signed with an Apple Developer ID, so Gatekeeper
+> will show a warning the first time you open it. To allow the app after
+> downloading the `.dmg`:
+>
+> 1. Open the `.dmg` and drag Blesus to **Applications** as usual.
+> 2. Try to open Blesus — macOS will block it.
+> 3. Go to **System Settings → Privacy & Security**, scroll down, and click
+>    **"Open Anyway"** next to the Blesus entry.
+> 4. Confirm the dialog that appears — Blesus will launch and the warning won't
+>    appear again.
+>
+> Alternatively, remove the quarantine attribute from a terminal:
+> ```bash
+> xattr -d com.apple.quarantine /Applications/Blesus.app
+> ```
+
 ## Build from source
 
 Prerequisites:

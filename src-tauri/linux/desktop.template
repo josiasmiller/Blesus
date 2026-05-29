@@ -1,0 +1,10 @@
+[Desktop Entry]
+Categories=Network;Email;
+Comment=Lightweight cross-platform email client
+Exec=__EXEC__
+Icon=__ICON__
+Name=__NAME__
+StartupNotify=true
+StartupWMClass=Blesus
+Terminal=false
+Type=Application
