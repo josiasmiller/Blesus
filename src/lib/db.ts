@@ -403,12 +403,12 @@ export interface StoredDraft {
   account_id: number;
   mode: DraftMode;
   reply_uid: number | null;
-  to_addresses: string | null;
-  cc_addresses: string | null;
-  bcc_addresses: string | null;
-  subject: string | null;
-  html_body: string | null;
-  text_body: string | null;
+  to_addresses: string;
+  cc_addresses: string;
+  bcc_addresses: string;
+  subject: string;
+  html_body: string;
+  text_body: string;
   body_is_raw: number; // 1 = verbatim email HTML (render in iframe), 0 = Tiptap HTML
   attachments_json: string | null;
   updated_at: number;
@@ -478,12 +478,12 @@ export async function insertDraft(input: DraftInput): Promise<number> {
       input.accountId,
       input.mode,
       input.replyUid,
-      input.to || null,
-      input.cc || null,
-      input.bcc || null,
-      input.subject || null,
-      input.htmlBody || null,
-      input.textBody || null,
+     input.to ?? '',
+     input.cc ?? '',
+     input.bcc ?? '',
+     input.subject ?? '',
+     input.htmlBody ?? '',
+     input.textBody ?? '',
       input.bodyIsRaw ? 1 : 0,
       input.attachments && input.attachments.length > 0
         ? JSON.stringify(input.attachments)
@@ -502,12 +502,12 @@ export async function updateDraft(id: number, input: DraftInput): Promise<void> 
        attachments_json = $8, updated_at = unixepoch()
      WHERE id = $9`,
     [
-      input.to || null,
-      input.cc || null,
-      input.bcc || null,
-      input.subject || null,
-      input.htmlBody || null,
-      input.textBody || null,
+     input.to ?? '',
+     input.cc ?? '',
+     input.bcc ?? '',
+     input.subject ?? '',
+     input.htmlBody ?? '',
+     input.textBody ?? '',
       input.bodyIsRaw ? 1 : 0,
       input.attachments && input.attachments.length > 0
         ? JSON.stringify(input.attachments)
