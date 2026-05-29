@@ -122,8 +122,8 @@ no cloud, no tracking.**
 - **Single-instance** enforcement
 - **Launch at login** (Windows / macOS / Linux)
 - **Close to tray** — X button hides instead of quitting
-- **Portable** — all data lives in `cursus-files/` next to the executable; zero registry pollution
-- Rotating log files (`cursus-files/logs/`, max 2 MB × 5 files); open logs folder from Settings
+- **Portable** — all data lives in `blesus-files/` next to the executable; zero registry pollution
+- Rotating log files (`blesus-files/logs/`, max 2 MB × 5 files); open logs folder from Settings
 
 ---
 
@@ -137,7 +137,7 @@ no task extraction, no tracking pixels. Stripped on purpose.
 ## Download
 
 Pre-built binaries will be published on
-[GitHub Releases](https://github.com/opencursus/blesus/releases)
+[GitHub Releases](https://github.com/JMTDI/blesus/releases)
 once v0.1 ships.
 
 ## Build from source
