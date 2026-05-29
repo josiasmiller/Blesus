@@ -33,7 +33,7 @@ jobs:
             artifact-name: macos-dmg-arm64
             artifact-path: |
               src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/*.dmg
-          - os: macos-13
+          - os: macos-latest
             target: x86_64-apple-darwin
             tauri-args: "--bundles dmg --target x86_64-apple-darwin"
             artifact-name: macos-dmg-x64
@@ -89,7 +89,8 @@ jobs:
       - name: Build Tauri app
         # Override `beforeBuildCommand` so Tauri doesn't re-run `tsc && vite build`
         # (the `tsc` step has accumulated type errors from dependency upgrades).
-        run: tauri build ${{ matrix.tauri-args }} -c "{\"build\":{\"beforeBuildCommand\":\"\"}}"
+        shell: bash
+        run: tauri build ${{ matrix.tauri-args }} -c '{"build":{"beforeBuildCommand":""}}'
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
