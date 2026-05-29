@@ -150,7 +150,7 @@ Prerequisites:
   [tauri.app/start/prerequisites](https://tauri.app/start/prerequisites/)
 
 ```bash
-git clone https://github.com/opencursus/blesus.git
+git clone https://github.com/JMTDI/blesus.git
 cd blesus
 npm install
 npm run tauri dev          # development run
