@@ -1,8 +1,10 @@
 [Desktop Entry]
+Version=1.0
 Categories=Network;Email;
 Comment=Lightweight cross-platform email client
 Exec=__EXEC__
 Icon=__ICON__
+MimeType=x-scheme-handler/mailto;
 Name=__NAME__
 StartupNotify=true
 StartupWMClass=Blesus
