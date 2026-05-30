@@ -70,6 +70,15 @@ fn get_database_url(state: tauri::State<'_, DbUrl>) -> String {
     state.0.clone()
 }
 
+/// Returns true if the system tray icon was successfully created at startup.
+/// The frontend uses this to decide whether "close to tray" should hide or quit:
+/// if there is no tray icon (e.g. on GNOME/Wayland without AppIndicator), hiding
+/// the window would leave the user with no way to reopen the app.
+#[tauri::command]
+fn is_tray_available(app: tauri::AppHandle) -> bool {
+    app.tray_by_id("main").is_some()
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let data_dir = resolve_data_dir();
@@ -135,33 +144,47 @@ pub fn run() {
         .manage(DbUrl(db_url.clone()))
         .manage(LogsDir(logs_dir.clone()))
         .setup(|app| {
-            let show_item = MenuItem::with_id(app, "show", "Show Blesus", true, None::<&str>)?;
-            let quit_item = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
-            let menu = Menu::with_items(app, &[&show_item, &quit_item])?;
+            // System tray is optional: on Linux desktops without StatusNotifierItem
+            // support (e.g. stock GNOME/Wayland without the AppIndicator extension)
+            // TrayIconBuilder::build will fail. We log a warning and continue so
+            // that the app still launches. The frontend queries `is_tray_available`
+            // at close time to decide whether to hide or quit.
+            if let Some(icon) = app.default_window_icon().cloned() {
+                let show_item =
+                    MenuItem::with_id(app, "show", "Show Blesus", true, None::<&str>)?;
+                let quit_item = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
+                let menu = Menu::with_items(app, &[&show_item, &quit_item])?;
 
-            let _tray = TrayIconBuilder::with_id("main")
-                .icon(app.default_window_icon().cloned().ok_or_else(|| {
-                    tauri::Error::InvalidWindowHandle
-                })?)
-                .tooltip("Blesus")
-                .menu(&menu)
-                .show_menu_on_left_click(false)
-                .on_menu_event(|app, event| match event.id.as_ref() {
-                    "show" => reveal_main(app),
-                    "quit" => app.exit(0),
-                    _ => {}
-                })
-                .on_tray_icon_event(|tray, event| {
-                    if let TrayIconEvent::Click {
-                        button: MouseButton::Left,
-                        button_state: MouseButtonState::Up,
-                        ..
-                    } = event
-                    {
-                        reveal_main(tray.app_handle());
+                match TrayIconBuilder::with_id("main")
+                    .icon(icon)
+                    .tooltip("Blesus")
+                    .menu(&menu)
+                    .show_menu_on_left_click(false)
+                    .on_menu_event(|app, event| match event.id.as_ref() {
+                        "show" => reveal_main(app),
+                        "quit" => app.exit(0),
+                        _ => {}
+                    })
+                    .on_tray_icon_event(|tray, event| {
+                        if let TrayIconEvent::Click {
+                            button: MouseButton::Left,
+                            button_state: MouseButtonState::Up,
+                            ..
+                        } = event
+                        {
+                            reveal_main(tray.app_handle());
+                        }
+                    })
+                    .build(app)
+                {
+                    Ok(_) => {}
+                    Err(err) => {
+                        log::warn!("System tray unavailable, running without it: {err}");
                     }
-                })
-                .build(app)?;
+                }
+            } else {
+                log::warn!("No window icon available; system tray disabled");
+            }
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
@@ -207,6 +230,7 @@ pub fn run() {
             commands::log_frontend,
             commands::get_logs_dir,
             get_database_url,
+            is_tray_available,
             ocr::ocr_page,
         ])
         .run(tauri::generate_context!())
