@@ -43,7 +43,7 @@
     ],
     "linux": {
       "deb": {
-        "depends": [],
+        "depends": ["libayatana-appindicator3-1 | libappindicator3-1"],
         "desktopTemplate": "linux/desktop.template"
       }
     }

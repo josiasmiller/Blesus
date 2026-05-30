@@ -157,6 +157,21 @@ once v0.1 ships.
 > xattr -d com.apple.quarantine /Applications/Blesus.app
 > ```
 
+> **Linux note:** Install the `.deb` package with:
+> ```bash
+> sudo dpkg -i blesus_*.deb
+> sudo apt-get install -f   # install any missing dependencies
+> ```
+> After installation, Blesus should appear in your application menu (Activities /
+> application launcher). You can also launch it from a terminal with `Blesus`.
+>
+> **System tray on Linux:** Blesus shows a system tray icon when your desktop
+> supports it (requires `libayatana-appindicator3-1` or `libappindicator3-1`,
+> installed automatically from the `.deb`). On GNOME you may need the
+> [AppIndicator extension](https://extensions.gnome.org/extension/615/appindicator-support/)
+> to see the tray icon. Without a working tray, the X button will quit the app
+> instead of hiding it to the tray.
+
 ## Build from source
 
 Prerequisites:
