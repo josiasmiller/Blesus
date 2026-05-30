@@ -46,10 +46,6 @@
         "depends": [],
         "desktopTemplate": "linux/desktop.template"
       }
-    },
-    "macos": {
-      "minimumSystemVersion": "10.13",
-      "signingIdentity": null
     }
   },
   "plugins": {}
