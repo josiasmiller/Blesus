@@ -26,22 +26,42 @@ use tauri_plugin_autostart::MacosLauncher;
 
 use crate::imap::idle::IdleManager;
 
-/// Holds the absolute SQLite connection string, computed once at startup
-/// against `<exe_dir>/cursus-files/flow.db`. The frontend reads it back via
-/// the `get_database_url` command so `Database.load(url)` matches the URL we
-/// registered migrations against.
+/// Holds the absolute SQLite connection string, computed once at startup.
+/// The frontend reads it back via the `get_database_url` command so
+/// `Database.load(url)` matches the URL we registered migrations against.
 pub struct DbUrl(pub String);
 
-/// Absolute portable logs directory, `<exe_dir>/cursus-files/logs/`. The
-/// frontend reads it via `get_logs_dir` so the "Open log folder" button
-/// always opens the same path the Rust target writes to.
+/// Absolute portable logs directory. The frontend reads it via `get_logs_dir`
+/// so the "Open log folder" button always opens the same path the Rust target
+/// writes to.
 pub struct LogsDir(pub PathBuf);
 
 fn resolve_data_dir() -> PathBuf {
-    let exe = std::env::current_exe().expect("current_exe");
-    let exe_dir = exe.parent().expect("exe parent").to_path_buf();
-    let data_dir = exe_dir.join("cursus-files");
-    std::fs::create_dir_all(&data_dir).expect("create cursus-files");
+    // On Windows, keep the original exe-relative layout (works because the
+    // installer owns that folder). On Linux/macOS, follow the XDG Base
+    // Directory spec: $XDG_DATA_HOME/blesus or ~/.local/share/blesus.
+    #[cfg(target_os = "windows")]
+    let data_dir = {
+        let exe = std::env::current_exe().expect("current_exe");
+        let exe_dir = exe.parent().expect("exe parent").to_path_buf();
+        exe_dir.join("cursus-files")
+    };
+
+    #[cfg(not(target_os = "windows"))]
+    let data_dir = {
+        let base = std::env::var("XDG_DATA_HOME")
+            .map(PathBuf::from)
+            .unwrap_or_else(|_| {
+                let home = std::env::var("HOME")
+                    .expect("HOME environment variable is not set");
+                PathBuf::from(home).join(".local").join("share")
+            });
+        base.join("blesus")
+    };
+
+    if let Err(e) = std::fs::create_dir_all(&data_dir) {
+        panic!("Failed to create app data directory {:?}: {}", data_dir, e);
+    }
 
     // One-shot migration for users upgrading from a "flow.db"-era build.
     // Rename the SQLite main file plus its WAL/SHM siblings, but only if
