@@ -27,7 +27,7 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; connect-src 'self' http://ipc.localhost https://api.resend.com https://api.github.com https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' data:; frame-src 'self'; worker-src blob: 'self' https://cdn.jsdelivr.net; media-src blob: 'self'"
+      "csp": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; connect-src 'self' http://ipc.localhost https://api.resend.com https://api.resend.com"
     },
     "trayIcon": null
   },
@@ -45,7 +45,6 @@
     "linux": {
       "deb": {
         "depends": ["libayatana-appindicator3-1 | libappindicator3-1"],
-        "desktopTemplate": "linux/desktop.template",
         "files": {
           "usr/share/icons/hicolor/32x32/apps/blesus.png": "icons/32x32.png",
           "usr/share/icons/hicolor/64x64/apps/blesus.png": "icons/64x64.png",
@@ -53,9 +52,7 @@
           "usr/share/icons/hicolor/256x256/apps/blesus.png": "icons/icon.png"
         }
       },
-      "rpm": {
-        "desktopTemplate": "linux/desktop.template"
-      }
+      "rpm": {}
     }
   },
   "plugins": {}
