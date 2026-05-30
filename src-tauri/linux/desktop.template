@@ -1,5 +1,5 @@
 [Desktop Entry]
-Version=1.0
+Version=0.2.0
 Categories=Network;Email;
 Comment=Lightweight cross-platform email client
 Exec={{exec}} %u
