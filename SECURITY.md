@@ -1,6 +1,6 @@
 # Security policy
 
-Cursus is a desktop email client. It handles IMAP and SMTP credentials,
+Blesus is a desktop email client. It handles IMAP and SMTP credentials,
 OS keychain entries, message content, and attachments. We take security
 issues seriously.
 
@@ -39,7 +39,7 @@ After v1.0, we will publish a support window in this document.
 
 In scope:
 
-- The Cursus desktop application (Rust backend, React frontend, packaged
+- The Blesus desktop application (Rust backend, React frontend, packaged
   binaries on GitHub Releases).
 - Any official build script or installer published from this repository.
 
@@ -50,7 +50,7 @@ Out of scope:
   we can bump the version.
 - Email server-side issues at IMAP/SMTP providers.
 - Phishing or social-engineering attacks against users that don't exploit
-  a flaw in Cursus itself.
+  a flaw in Blesus itself.
 
 ## Coordinated disclosure
 
