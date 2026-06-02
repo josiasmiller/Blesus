@@ -8,7 +8,7 @@ issues seriously.
 
 **Do not open a public GitHub issue.** Instead, send a private report to:
 
-> **security@opencursus.app**
+> **1mailnet4u@gmail.com**
 
 Include:
 
